@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>Toast Notification</title>
+
+    <link href="style.css" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+          integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+          referrerpolicy="no-referrer" rel="stylesheet"/>
+
+</head>
+<body>
+
+<div class="buttons">
+    <button class="success-btn" onclick="showToast('success', 'İşlem Başarılı', 'Oturum açma işlemi başarılı')">
+        Success
+    </button>
+    <button class="error-btn" onclick="showToast('error', 'Hata Oluştu', 'Kayıt oluşturulurken bir hata oluştu')">
+        Error
+    </button>
+    <button class="info-btn" onclick="showToast('info', 'Bilgilendirme', 'E-Posta başarıyla gönderildi.')">Info</button>
+    <button class="warning-btn" onclick="showToast('warning', 'Dikkat', 'Hiçbir değişiklik yapmadınız.')">Warning
+    </button>
+</div>
+
+<script>
+
+    function createToastBox() {
+        let toastBox = document.getElementById('toastBox')
+        if (!toastBox) {
+            toastBox = document.createElement('div')
+            toastBox.id = 'toastBox'
+            document.body.appendChild(toastBox)
+        }
+        console.log(toastBox)
+        return toastBox
+    }
+
+    function showToast(type, title, content) {
+        console.log(type)
+        console.log(title)
+        console.log(content)
+        const toastBox = createToastBox()
+
+        let toast = document.createElement('div')
+        toast.classList.add('myToast')
+
+        let iconClass;
+        switch (type) {
+            case 'success':
+                iconClass = 'fa-circle-check'
+                break;
+            case 'error':
+                iconClass = 'fa-circle-xmark'
+                break;
+            case 'warning':
+                iconClass = 'fa-circle-exclamation'
+                break;
+            case 'info':
+                iconClass = 'fa-circle-info'
+                break;
+        }
+
+        toast.innerHTML = `
+            <div><i class="fa-solid ${iconClass}"></i></div>
+            <div>
+                <span class="toast-title">${title}</span><br>
+                <span class="toast-content text-muted">${content}</span>
+            </div>
+        `;
+
+        toast.classList.add(type)
+        toastBox.appendChild(toast)
+
+        toast.addEventListener('click', () => {
+            hideToast(toast)
+        });
+
+        setTimeout(() => {
+            hideToast(toast)
+        }, 4000)
+    }
+
+    function hideToast(toast) {
+        toast.style.animation = 'moveRight 0.5s forwards'
+        setTimeout(() => {
+            toast.remove()
+        }, 500)
+    }
+
+</script>
+
+</body>
+</html>
